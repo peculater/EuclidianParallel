@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class EuclidManager {
 
-    private static final int THREADS = 4; 
+    private static final int THREADS = 8; 
     private static final String initialCsvFile = "/home/wlieurance/Contracting/Traitify/blah.csv";
     private EuclidComparator[] comparators;
 
