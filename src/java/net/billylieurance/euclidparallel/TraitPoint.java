@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
  *
  * @author wlieurance
  */
-public class TraitPoint {
+public class TraitPoint implements Comparable<TraitPoint> {
     private static final int DIMENSIONS = 201;
     private int[] _points = new int[DIMENSIONS];
     private String id;
@@ -22,13 +22,19 @@ public class TraitPoint {
     
     public Distance distanceFrom(TraitPoint otherpoint){
         Distance returnable = new Distance();
-        returnable.setDistance(
-                (int) Math.sqrt(
-                        IntStream.range(0, DIMENSIONS)
-                                .map( i-> (_points[i] - otherpoint.getPoints()[i]) * (_points[i] - otherpoint.getPoints()[i]))
-                                .sum()
-                )
-        );
+        //Deadlocks for some reason?
+        //returnable.setDistance(
+        //        (int) Math.sqrt(
+        //                IntStream.range(0, DIMENSIONS)
+        //                        .map( i-> (_points[i] - otherpoint.getPoints()[i]) * (_points[i] - otherpoint.getPoints()[i]))
+        //                        .sum()
+        //        )
+        //);
+        int running = 0;
+        for (int i = 0; i < DIMENSIONS; i++){
+            running += (_points[i] - otherpoint.getPoints()[i]) * (_points[i] - otherpoint.getPoints()[i]);
+        }
+        returnable.setDistance((int) Math.sqrt(running));
         returnable.setId(id);
         return returnable;
     }
@@ -61,6 +67,23 @@ public class TraitPoint {
     public void setId(String id) {
         this.id = id;
     }
+    
+    
+    //This just divides the hyperplane in the first dimension it can find.
+    @Override
+	public int compareTo(TraitPoint that) {
+		for(int i = 0; i < DIMENSIONS; i++) {
+			int v1 = this._points[i];
+			int v2 = that._points[i];
+			if(v1 > v2) {
+				return +1;
+			}
+			if(v1 < v2) {
+				return -1;
+			}
+		}
+		return 0;
+	}
     
     
     

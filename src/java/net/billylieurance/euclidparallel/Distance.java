@@ -5,11 +5,13 @@
  */
 package net.billylieurance.euclidparallel;
 
+import mtree.DistanceFunction;
+
 /**
  *
  * @author wlieurance
  */
-public class Distance implements Comparable<Distance> {
+public class Distance implements Comparable<Distance>, DistanceFunction<TraitPoint> {
 
     private String id;
     private int distance;
@@ -43,6 +45,12 @@ public class Distance implements Comparable<Distance> {
             return EQUAL;
 
     }
+    
+      @Override
+    public double calculate(TraitPoint data1, TraitPoint data2) {
+        return data2.distanceFrom(data1).getDistance();
+    }
+    
     
     @Override
     public String toString(){
